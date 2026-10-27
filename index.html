@@ -1,583 +1,389 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Art | Decoration & Wall Art</title>
-    <!-- Google Fonts & FontAwesome -->
+    <title>K-ART | Advanced Intro Experience</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --neon-pink: #ff2a85;
-            --neon-cyan: #00f0ff;
-            --text-light: #ffffff;
-            --text-gray: #94a3b8;
-            --font-ar: 'Cairo', sans-serif;
-            --font-en: 'Poppins', sans-serif;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --accent: #a855f7;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
+            user-select: none;
         }
 
         body {
-            background: linear-gradient(rgba(5, 7, 11, 0.92), rgba(11, 15, 25, 0.95)), url('logo.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-light);
-            font-family: var(--font-ar);
-            overflow-x: hidden;
-        }
-
-        body.en {
-            font-family: var(--font-en);
-            direction: ltr;
-        }
-
-        /* --- CINEMATIC AD-AGENCY INTRO --- */
-        #intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #05070b;
+            font-family: 'Cairo', 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1.5s ease, visibility 1.5s ease;
-        }
-
-        #intro-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .camera-lens-container {
+            justify-content: space-between;
+            overflow-x: hidden;
             position: relative;
-            width: 320px;
-            height: 320px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        .lens-ring {
+        /* Background Subtle Logo Watermark (Resized & Balanced) */
+        .bg-watermark {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(40vw, 300px);
+            height: min(40vw, 300px);
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-watermark img, .bg-watermark i {
             width: 100%;
             height: 100%;
-            border: 4px dashed var(--neon-cyan);
-            border-radius: 50%;
-            animation: spinLens 10s linear infinite;
-        }
-
-        .lens-ring-2 {
-            position: absolute;
-            width: 82%;
-            height: 82%;
-            border: 3px solid var(--neon-pink);
-            border-radius: 50%;
-            animation: spinLensReverse 8s linear infinite;
-        }
-
-        /* Logo Fade In & Scale Up cleanly */
-        .intro-logo-box {
-            width: 150px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: scale(0.2);
-            animation: cinematicFadeIn 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
-        }
-
-        .intro-logo-box img {
-            width: 130px;
-            height: 130px;
             object-fit: contain;
-            filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.6));
-            animation: verticalSpin 6s ease-in-out infinite;
+            font-size: 250px;
+            color: var(--text-main);
         }
 
-        /* Staggered Text Animations for Advertising Agency Feel */
-        .intro-text-box {
-            text-align: center;
-            margin-top: 25px;
-        }
-
-        .intro-text-box h2 {
-            font-size: 28px;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUpFade 1.2s ease forwards 1.4s; /* دخول أولاً */
-        }
-
-        .intro-text-box p {
-            font-size: 15px;
-            color: var(--neon-cyan);
-            letter-spacing: 2px;
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUpFade 1.2s ease forwards 2.2s; /* دخول متأخر بشوية فشيخ */
-        }
-
-        /* Keyframes */
-        @keyframes spinLens {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes spinLensReverse {
-            0% { transform: rotate(360deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        @keyframes cinematicFadeIn {
-            0% { opacity: 0; transform: scale(0.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes slideUpFade {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* حركة دوران عمودية حول المحور (Vertical 3D Spin) */
-        @keyframes verticalSpin {
-            0% { transform: perspective(600px) rotateY(0deg); }
-            50% { transform: perspective(600px) rotateY(180deg); scale(1.08); }
-            100% { transform: perspective(600px) rotateY(360deg); }
-        }
-
-        /* --- HEADER & VERTICAL SPIN LOGO --- */
+        /* Top Bar & Controls */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
-            background: rgba(11, 15, 25, 0.85);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 5%;
-            z-index: 1000;
+            z-index: 10;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-            color: var(--text-light);
-        }
-
-        /* لوجو الهيدر بدون دائرة وبيبقى بيلف عمودي حوالين محوره */
-        .header-logo-3d {
-            width: 45px;
-            height: 45px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .header-logo-3d img {
-            width: 42px;
-            height: 42px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px var(--neon-pink));
-            animation: verticalSpin 6s ease-in-out infinite;
-        }
-
-        .logo-area h2 {
-            font-size: 24px;
+        .brand-mini {
             font-weight: 900;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-            align-items: center;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-light);
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--neon-cyan);
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: 2px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 6px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .lang-btn:hover {
-            background: var(--neon-cyan);
-            color: #0b0f19;
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #fff, var(--neon-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.4rem;
-            color: var(--neon-pink);
-            margin-bottom: 30px;
-            font-weight: 700;
             letter-spacing: 1px;
         }
 
-        .btn-main {
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
-            color: #fff;
-            padding: 12px 35px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 0 20px rgba(255, 42, 133, 0.4);
-            transition: 0.3s;
-        }
-
-        .btn-main:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px var(--neon-cyan);
-        }
-
-        /* --- SERVICES SECTION --- */
-        .section {
-            padding: 100px 8%;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            font-weight: 900;
-            color: var(--text-light);
-        }
-
-        .section-title span {
-            color: var(--neon-cyan);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .service-card {
-            background: rgba(19, 28, 46, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 40px 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-            text-align: center;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--neon-pink);
-            box-shadow: 0 10px 30px rgba(255, 42, 133, 0.2);
-        }
-
-        .service-card i {
-            font-size: 3rem;
-            color: var(--neon-cyan);
-            margin-bottom: 20px;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .service-card p {
-            color: var(--text-gray);
-            line-height: 1.6;
-        }
-
-        /* --- QUOTATION SECTION --- */
-        .quotation-box {
-            background: rgba(19, 28, 46, 0.85);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(0, 240, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--neon-cyan);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            background: rgba(5, 7, 11, 0.7);
+        .lang-switcher {
+            background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #fff;
-            font-family: inherit;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--neon-pink);
-        }
-
-        .submit-quote-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
-            color: #fff;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.2rem;
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: 0.3s;
+            font-family: inherit;
+            font-weight: 600;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
         }
 
-        .submit-quote-btn:hover {
-            opacity: 0.9;
-            box-shadow: 0 0 25px var(--neon-pink);
+        .lang-switcher:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        /* --- FOOTER --- */
-        footer {
+        /* Main Container */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2;
             text-align: center;
-            padding: 30px;
-            background: rgba(5, 7, 11, 0.9);
-            color: var(--text-gray);
+        }
+
+        /* Intro Text Animation Box */
+        .intro-text-box {
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInDown 1s forwards 0.3s;
+        }
+
+        .intro-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ffffff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .intro-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Realistic Camera Lens Hub */
+        .camera-hub {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        /* Outer Glow Rings */
+        .lens-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px dashed rgba(99, 102, 241, 0.3);
+            animation: rotateSlow 20s linear infinite;
+        }
+
+        .lens-ring.r1 { width: 100%; height: 100%; }
+        .lens-ring.r2 { width: 85%; height: 85%; border-color: rgba(168, 85, 247, 0.4); animation-direction: reverse; animation-duration: 15s; }
+
+        /* Realistic Camera Lens Body */
+        .camera-body {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, #1e293b 0%, #090d16 80%);
+            border-radius: 50%;
+            border: 4px solid #334155;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.9), 0 0 20px var(--primary-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .camera-hub:hover .camera-body {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 40px var(--primary-glow), inset 0 0 25px rgba(0,0,0,0.9);
+        }
+
+        /* Camera Glass Refraction & Blades */
+        .camera-glass {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #3b82f6 0%, #1e1b4b 50%, #020617 100%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+
+        .camera-glass::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+            transform: rotate(25deg);
+            pointer-events: none;
+        }
+
+        .lens-icon {
+            font-size: 2rem;
+            color: #ffffff;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            transition: var(--transition);
+        }
+
+        .camera-hub:hover .lens-icon {
+            transform: scale(1.1) rotate(15deg);
+            color: #93c5fd;
+        }
+
+        /* Active Recording State */
+        .camera-hub.recording .camera-body {
+            border-color: #ef4444;
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.6), inset 0 0 20px rgba(0,0,0,0.9);
+            animation: pulseRecord 1.5s infinite;
+        }
+
+        .camera-hub.recording .camera-glass {
+            background: radial-gradient(circle at 30% 30%, #991b1b 0%, #450a0a 50%, #020617 100%);
+        }
+
+        /* Action Status Text */
+        .status-badge {
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        /* Footer & Copyrights */
+        footer {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        footer span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseRecord {
+            0% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(239, 68, 68, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
         }
     </style>
 </head>
 <body>
 
-    <!-- CINEMATIC AD-AGENCY INTRO -->
-    <div id="intro-screen">
-        <div class="camera-lens-container">
-            <div class="lens-ring"></div>
-            <div class="lens-ring-2"></div>
-            <div class="intro-logo-box">
-                <img src="logo.png" alt="K-Art Logo">
-            </div>
-        </div>
-        <div class="intro-text-box">
-            <h2 data-ar="كى آرت للدعاية والديكور" data-en="K-ART Decoration">K-ART Decoration</h2>
-            <p>We design, we create, your business grow</p>
-        </div>
+    <!-- Background Watermark Logo -->
+    <div class="bg-watermark">
+        <i class="fa-solid fa-cube"></i>
     </div>
 
-    <!-- HEADER -->
+    <!-- Header / Nav -->
     <header>
-        <a href="#" class="logo-area">
-            <div class="header-logo-3d">
-                <img src="logo.png" alt="K-Art">
-            </div>
-            <h2 data-ar="كى آرت" data-en="K-ART">K-ART</h2>
-        </a>
-        <nav>
-            <ul>
-                <li><a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
-                <li><a href="#services" data-ar="خدماتنا" data-en="Services">خدماتنا</a></li>
-                <li><a href="#quotation" data-ar="طلب عرض سعر" data-en="Get Quote">طلب عرض سعر</a></li>
-                <li><button class="lang-btn" onclick="toggleLanguage()">EN / AR</button></li>
-            </ul>
-        </nav>
+        <div class="brand-mini">K-ART</div>
+        <button class="lang-switcher" id="langToggle" onclick="toggleLanguage()">English</button>
     </header>
 
-    <!-- HERO SECTION -->
-    <section id="home" class="hero">
-        <h1 data-ar="شركة كى آرت للدعاية والاعلان والديكور" data-en="K-ART Decoration & Wall Art">K-ART Decoration & Wall Art</h1>
-        <p>We design, we create, your business grow</p>
-        <a href="#quotation" class="btn-main" data-ar="اطلب عرض سعر الآن" data-en="Request A Quote Now">اطلب عرض سعر الآن</a>
-    </section>
+    <!-- Main Content Area -->
+    <div class="main-container">
+        
+        <!-- Intro Header Text -->
+        <div class="intro-text-box">
+            <h1 class="intro-title" id="mainTitle">تجربة إبداعية متكاملة</h1>
+            <p class="intro-subtitle" id="mainSubtitle">اضغط على العدسة أدناه لبدء التفاعل والعرض المباشر</p>
+        </div>
 
-    <!-- SERVICES SECTION -->
-    <section id="services" class="section">
-        <h2 class="section-title" data-ar="خدماتنا المميزة" data-en="Our <span>Services</span>">خدماتنا المميزة</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <i class="fa-solid fa-paint-brush"></i>
-                <h3 data-ar="تصميم الهوية البصرية" data-en="Brand Identity">تصميم الهوية البصرية</h3>
-                <p data-ar="نصمم هويات بصرية فريدة تعبر عن قوة شركتك وتجذب عملائك المستهدفين." data-en="We design unique visual identities that reflect your company's strength."></p>
-            </div>
-            <div class="service-card">
-                <i class="fa-solid fa-image"></i>
-                <h3 data-ar="طباعة البانرات واللوكسان والديكور" data-en="Banners & Wall Art">طباعة البانرات والديكور</h3>
-                <p data-ar="أعلى جودة طباعة للديكورات والبانرات ولوحات الحوائط العصرية." data-en="Top-quality printing for modern wall art and banners."></p>
-            </div>
-            <div class="service-card">
-                <i class="fa-solid fa-bullhorn"></i>
-                <h3 data-ar="الحملات الإعلانية" data-en="Advertising Campaigns">الحملات الإعلانية</h3>
-                <p data-ar="إدارة حملات تسويقية متكاملة تضمن نمو أرباحك وعلامتك التجارية." data-en="Managed marketing campaigns to guarantee business growth."></p>
+        <!-- Realistic Camera Hub Component -->
+        <div class="camera-hub" id="cameraHub" onclick="toggleCameraAction()">
+            <div class="lens-ring r1"></div>
+            <div class="lens-ring r2"></div>
+            <div class="camera-body">
+                <div class="camera-glass">
+                    <i class="fa-solid fa-camera-retro lens-icon" id="lensIcon"></i>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- QUOTATION SECTION -->
-    <section id="quotation" class="section">
-        <h2 class="section-title" data-ar="احصل على عرض سعر فورى" data-en="Request A <span>Quotation</span>">احصل على عرض سعر فوري</h2>
-        <div class="quotation-box">
-            <form id="quoteForm" onsubmit="sendToWhatsApp(event)">
-                <div class="form-group">
-                    <label data-ar="الاسم الكريم" data-en="Your Name">الاسم الكريم</label>
-                    <input type="text" id="clientName" class="form-control" required data-placeholder-ar="اكتب اسمك هنا..." data-placeholder-en="Enter your name here..." placeholder="اكتب اسمك هنا...">
-                </div>
-                <div class="form-group">
-                    <label data-ar="رقم الواتساب أو الهاتف" data-en="Phone Number">رقم الواتساب أو الهاتف</label>
-                    <input type="tel" id="clientPhone" class="form-control" required data-placeholder-ar="اكتب رقمك..." data-placeholder-en="Enter your phone number..." placeholder="اكتب رقمك...">
-                </div>
-                <div class="form-group">
-                    <label data-ar="اختر الخدمة المطلوبة" data-en="Select Service">اختر الخدمة المطلوبة</label>
-                    <select id="clientService" class="form-control">
-                        <option value="Brand Identity" data-ar="تصميم الهوية البصرية" data-en="Brand Identity">تصميم الهوية البصرية</option>
-                        <option value="Banners & Wall Art" data-ar="طباعة البانرات والديكور" data-en="Banners & Wall Art">طباعة البانرات والديكور</option>
-                        <option value="Advertising Campaigns" data-ar="الحملات الإعلانية" data-en="Advertising Campaigns">الحملات الإعلانية</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label data-ar="تفاصيل المشروع" data-en="Project Details">تفاصيل المشروع</label>
-                    <textarea id="clientDetails" class="form-control" rows="4" data-placeholder-ar="اكتب تفاصيل طلبك أو مقاسات الديكور والبانرات..." data-placeholder-en="Write your project details or decoration measurements..." placeholder="اكتب تفاصيل طلبك أو مقاسات الديكور والبانرات..."></textarea>
-                </div>
-                <button type="submit" class="submit-quote-btn" data-ar="إرسال الطلب عبر الواتساب" data-en="Send Request via WhatsApp">إرسال الطلب عبر الواتساب</button>
-            </form>
-        </div>
-    </section>
+        <!-- Status Dynamic Badge -->
+        <div class="status-badge" id="statusBadge">جاهز للتفعيل والاستعراض</div>
 
-    <!-- FOOTER -->
+    </div>
+
+    <!-- Footer Copyrights -->
     <footer>
-        <p>&copy; 2026 K-ART. All Rights Reserved. Designed with ❤️ by Gemini for You.</p>
+        <div id="footerText">© 2026 K-ART. All Rights Reserved. | Powered By <span>Mostafa El-Sayed</span></div>
     </footer>
 
+    <!-- JavaScript Control Logic -->
     <script>
-        // --- CINEMATIC INTRO TIMING ---
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const intro = document.getElementById('intro-screen');
-                intro.classList.add('fade-out');
-            }, 5200);
-        });
-
-        // --- FULL DUAL-LANGUAGE TOGGLE (AR / EN) ---
         let currentLang = 'ar';
-        function toggleLanguage() {
-            const body = document.body;
-            const elements = document.querySelectorAll('[data-ar]');
-            const placeholders = document.querySelectorAll('[data-placeholder-ar]');
-            
-            if (currentLang === 'ar') {
-                currentLang = 'en';
-                body.classList.add('en');
-                body.setAttribute('dir', 'ltr');
-                
-                elements.forEach(el => {
-                    if(el.hasAttribute('data-en')) {
-                        el.innerHTML = el.getAttribute('data-en');
-                    }
-                });
+        let isRecording = false;
 
-                placeholders.forEach(el => {
-                    if(el.hasAttribute('data-placeholder-en')) {
-                        el.placeholder = el.getAttribute('data-placeholder-en');
-                    }
-                });
-            } else {
-                currentLang = 'ar';
-                body.classList.remove('en');
-                body.setAttribute('dir', 'rtl');
-                
-                elements.forEach(el => {
-                    if(el.hasAttribute('data-ar')) {
-                        el.innerHTML = el.getAttribute('data-ar');
-                    }
-                });
-
-                placeholders.forEach(el => {
-                    if(el.hasAttribute('data-placeholder-ar')) {
-                        el.placeholder = el.getAttribute('data-placeholder-ar');
-                    }
-                });
+        const translations = {
+            ar: {
+                title: "تجربة إبداعية متكاملة",
+                subtitle: "اضغط على العدسة أدناه لبدء التفاعل والعرض المباشر",
+                statusReady: "جاهز للتفعيل والاستعراض",
+                statusActive: "جاري تشغيل العدسة والتسجيل التفاعلي...",
+                langBtn: "English",
+                dir: "rtl"
+            },
+            en: {
+                title: "Immersive Creative Experience",
+                subtitle: "Click the lens below to initialize interactive mode",
+                statusReady: "Ready for Activation & Preview",
+                statusActive: "Optics Active & Recording Live...",
+                langBtn: "العربية",
+                dir: "ltr"
             }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const t = translations[currentLang];
+            
+            // Update Document Direction and Lang
+            document.getElementById('htmlRoot').setAttribute('dir', t.dir);
+            document.getElementById('htmlRoot').setAttribute('lang', currentLang);
+
+            // Update Texts
+            document.getElementById('mainTitle').innerText = t.title;
+            document.getElementById('mainSubtitle').innerText = t.subtitle;
+            document.getElementById('langToggle').innerText = t.langBtn;
+            document.getElementById('statusBadge').innerText = isRecording ? t.statusActive : t.statusReady;
         }
 
-        // --- SEND QUOTATION DIRECTLY TO WHATSAPP ---
-        function sendToWhatsApp(e) {
-            e.preventDefault();
-            const name = document.getElementById('clientName').value;
-            const phone = document.getElementById('clientPhone').value;
-            const service = document.getElementById('clientService').value;
-            const details = document.getElementById('clientDetails').value;
+        function toggleCameraAction() {
+            const hub = document.getElementById('cameraHub');
+            const badge = document.getElementById('statusBadge');
+            const icon = document.getElementById('lensIcon');
+            const t = translations[currentLang];
 
-            const myWhatsAppNumber = "201000000000"; 
+            isRecording = !isRecording;
 
-            const message = `مرحباً K-Art، أريد طلب عرض سعر:%0A- الاسم: ${name}%0A- الهاتف: ${phone}%0A- الخدمة: ${service}%0A- التفاصيل: ${details}`;
-            
-            window.open(`https://wa.me/${myWhatsAppNumber}?text=${message}`, '_blank');
+            if (isRecording) {
+                hub.classList.add('recording');
+                badge.innerText = t.statusActive;
+                badge.style.borderColor = '#ef4444';
+                badge.style.color = '#fca5a5';
+                icon.className = "fa-solid fa-circle-dot lens-icon";
+            } else {
+                hub.classList.remove('recording');
+                badge.innerText = t.statusReady;
+                badge.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                badge.style.color = 'var(--text-muted)';
+                icon.className = "fa-solid fa-camera-retro lens-icon";
+            }
         }
     </script>
 </body>
