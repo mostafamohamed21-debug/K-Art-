@@ -40,7 +40,7 @@
             direction: ltr;
         }
 
-        /* --- CINEMATIC INTRO SCREEN --- */
+        /* --- CINEMATIC AD-AGENCY INTRO --- */
         #intro-screen {
             position: fixed;
             top: 0;
@@ -88,61 +88,56 @@
             animation: spinLensReverse 8s linear infinite;
         }
 
-        /* 3D Logo Container with Fade-in effect */
+        /* Logo Fade In & Scale Up cleanly */
         .intro-logo-box {
             width: 150px;
             height: 150px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
             align-items: center;
-            /* تأثير 3D Neon Shadow */
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.4), 
-                        inset 0 0 20px rgba(255, 42, 133, 0.3),
-                        0 0 50px rgba(255, 42, 133, 0.2);
             opacity: 0;
-            transform: scale(0.5);
-            animation: fadeInLogo 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.8s, 
-                       float3D 4s ease-in-out infinite 2.8s;
+            transform: scale(0.2);
+            animation: cinematicFadeIn 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
         }
 
         .intro-logo-box img {
-            width: 100px;
-            height: 100px;
+            width: 130px;
+            height: 130px;
             object-fit: contain;
-            filter: drop-shadow(0 5px 15px rgba(0, 240, 255, 0.5));
-            animation: rotate3DLogo 10s linear infinite;
+            filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.6));
+            animation: verticalSpin 6s ease-in-out infinite;
         }
 
-        /* Text reveal under the lens */
+        /* Staggered Text Animations for Advertising Agency Feel */
         .intro-text-box {
             text-align: center;
             margin-top: 25px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInText 1.5s ease forwards 1.8s;
         }
 
         .intro-text-box h2 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 900;
             background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUpFade 1.2s ease forwards 1.4s; /* دخول أولاً */
         }
 
         .intro-text-box p {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--neon-cyan);
             letter-spacing: 2px;
             font-weight: 600;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUpFade 1.2s ease forwards 2.2s; /* دخول متأخر بشوية فشيخ */
         }
 
-        /* Animations */
+        /* Keyframes */
         @keyframes spinLens {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -153,27 +148,24 @@
             100% { transform: rotate(0deg); }
         }
 
-        @keyframes fadeInLogo {
-            0% { opacity: 0; transform: scale(0.5); }
+        @keyframes cinematicFadeIn {
+            0% { opacity: 0; transform: scale(0.2); }
             100% { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes fadeInText {
-            0% { opacity: 0; transform: translateY(20px); }
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes float3D {
-            0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
-            50% { transform: translateY(-8px) rotateX(5deg) rotateY(5deg); }
+        /* حركة دوران عمودية حول المحور (Vertical 3D Spin) */
+        @keyframes verticalSpin {
+            0% { transform: perspective(600px) rotateY(0deg); }
+            50% { transform: perspective(600px) rotateY(180deg); scale(1.08); }
+            100% { transform: perspective(600px) rotateY(360deg); }
         }
 
-        @keyframes rotate3DLogo {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* --- HEADER & 3D LOGO IN NAVBAR --- */
+        /* --- HEADER & VERTICAL SPIN LOGO --- */
         header {
             position: fixed;
             top: 0;
@@ -192,34 +184,30 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             text-decoration: none;
             color: var(--text-light);
         }
 
-        /* الهيدر 3D Logo بيلف 360 بحجم أنيق */
+        /* لوجو الهيدر بدون دائرة وبيبقى بيلف عمودي حوالين محوره */
         .header-logo-3d {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
+            width: 45px;
+            height: 45px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-            border: 1px solid rgba(0, 240, 255, 0.4);
         }
 
         .header-logo-3d img {
-            width: 32px;
-            height: 32px;
+            width: 42px;
+            height: 42px;
             object-fit: contain;
-            filter: drop-shadow(0 2px 8px rgba(255, 42, 133, 0.6));
-            animation: rotate3DLogo 12s linear infinite;
+            filter: drop-shadow(0 0 10px var(--neon-pink));
+            animation: verticalSpin 6s ease-in-out infinite;
         }
 
         .logo-area h2 {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 900;
             background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
             -webkit-background-clip: text;
@@ -429,7 +417,7 @@
 </head>
 <body>
 
-    <!-- CINEMATIC INTRO SCREEN -->
+    <!-- CINEMATIC AD-AGENCY INTRO -->
     <div id="intro-screen">
         <div class="camera-lens-container">
             <div class="lens-ring"></div>
@@ -498,11 +486,11 @@
             <form id="quoteForm" onsubmit="sendToWhatsApp(event)">
                 <div class="form-group">
                     <label data-ar="الاسم الكريم" data-en="Your Name">الاسم الكريم</label>
-                    <input type="text" id="clientName" class="form-control" required placeholder="اكتب اسمك هنا...">
+                    <input type="text" id="clientName" class="form-control" required data-placeholder-ar="اكتب اسمك هنا..." data-placeholder-en="Enter your name here..." placeholder="اكتب اسمك هنا...">
                 </div>
                 <div class="form-group">
                     <label data-ar="رقم الواتساب أو الهاتف" data-en="Phone Number">رقم الواتساب أو الهاتف</label>
-                    <input type="tel" id="clientPhone" class="form-control" required placeholder="اكتب رقمك...">
+                    <input type="tel" id="clientPhone" class="form-control" required data-placeholder-ar="اكتب رقمك..." data-placeholder-en="Enter your phone number..." placeholder="اكتب رقمك...">
                 </div>
                 <div class="form-group">
                     <label data-ar="اختر الخدمة المطلوبة" data-en="Select Service">اختر الخدمة المطلوبة</label>
@@ -514,7 +502,7 @@
                 </div>
                 <div class="form-group">
                     <label data-ar="تفاصيل المشروع" data-en="Project Details">تفاصيل المشروع</label>
-                    <textarea id="clientDetails" class="form-control" rows="4" placeholder="اكتب تفاصيل طلبك أو مقاسات الديكور والبانرات..."></textarea>
+                    <textarea id="clientDetails" class="form-control" rows="4" data-placeholder-ar="اكتب تفاصيل طلبك أو مقاسات الديكور والبانرات..." data-placeholder-en="Write your project details or decoration measurements..." placeholder="اكتب تفاصيل طلبك أو مقاسات الديكور والبانرات..."></textarea>
                 </div>
                 <button type="submit" class="submit-quote-btn" data-ar="إرسال الطلب عبر الواتساب" data-en="Send Request via WhatsApp">إرسال الطلب عبر الواتساب</button>
             </form>
@@ -527,40 +515,51 @@
     </footer>
 
     <script>
-        // --- CINEMATIC INTRO TIMING (Smooth 4.8 seconds duration) ---
+        // --- CINEMATIC INTRO TIMING ---
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const intro = document.getElementById('intro-screen');
                 intro.classList.add('fade-out');
-            }, 4800);
+            }, 5200);
         });
 
-        // --- LANGUAGE TOGGLE (AR / EN) ---
+        // --- FULL DUAL-LANGUAGE TOGGLE (AR / EN) ---
         let currentLang = 'ar';
         function toggleLanguage() {
             const body = document.body;
             const elements = document.querySelectorAll('[data-ar]');
+            const placeholders = document.querySelectorAll('[data-placeholder-ar]');
             
             if (currentLang === 'ar') {
                 currentLang = 'en';
                 body.classList.add('en');
                 body.setAttribute('dir', 'ltr');
+                
                 elements.forEach(el => {
-                    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = el.getAttribute('data-en') || el.placeholder;
-                    } else if(el.hasAttribute('data-en')) {
+                    if(el.hasAttribute('data-en')) {
                         el.innerHTML = el.getAttribute('data-en');
+                    }
+                });
+
+                placeholders.forEach(el => {
+                    if(el.hasAttribute('data-placeholder-en')) {
+                        el.placeholder = el.getAttribute('data-placeholder-en');
                     }
                 });
             } else {
                 currentLang = 'ar';
                 body.classList.remove('en');
                 body.setAttribute('dir', 'rtl');
+                
                 elements.forEach(el => {
-                    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                        el.placeholder = el.getAttribute('data-ar') || el.placeholder;
-                    } else if(el.hasAttribute('data-ar')) {
+                    if(el.hasAttribute('data-ar')) {
                         el.innerHTML = el.getAttribute('data-ar');
+                    }
+                });
+
+                placeholders.forEach(el => {
+                    if(el.hasAttribute('data-placeholder-ar')) {
+                        el.placeholder = el.getAttribute('data-placeholder-ar');
                     }
                 });
             }
